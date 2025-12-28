@@ -3,44 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Google Calendar</title>
+    <title>หน้าต่างจัดการงาน - Calendar & Todo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            background-color: #f0f2f5;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f4f7f6;
+            font-family: 'Inter', 'Sarabun', sans-serif;
         }
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
+        .content-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .calendar-container {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
+        .card {
             background: white;
-            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 30px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        .card-header {
+            padding: 15px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            background: #fff;
+        }
+        /* Aspect ratio for Calendar */
+        .calendar-frame {
+            aspect-ratio: 16 / 10;
+            min-height: 500px;
+        }
+        /* Height for Todo List */
+        .todo-frame {
+            height: 600px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        @media (max-width: 768px) {
+            .calendar-frame {
+                height: 450px;
+            }
+            .todo-frame {
+                height: 500px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h2>ตารางกิจกรรมของฉัน</h2>
+    <!-- Header Section -->
+    <header class="bg-indigo-700 text-white py-6 shadow-lg mb-6">
+        <div class="container mx-auto px-4">
+            <h1 class="text-2xl font-bold flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                Dashboard จัดการงานและตารางเวลา
+            </h1>
+        </div>
+    </header>
 
-    <div class="calendar-container">
-        <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FBangkok&showPrint=0&src=aG9tZXdvcmsucGJsYWNjdEBnbWFpbC5jb20&src=dGgudGgjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039be5&color=%230b8043" 
-                style="border:0" 
-                width="800" 
-                height="600" 
-                frameborder="0" 
-                scrolling="no">
-        </iframe>
-    </div>
+    <main class="content-container">
+        
+        <!-- Section 1: Google Calendar -->
+        <div class="card">
+            <div class="card-header">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                ปฏิทินงานและวันหยุด
+            </div>
+            <div class="iframe-container calendar-frame">
+                <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Asia%2FBangkok&showPrint=0&src=aG9tZXdvcmsucGJsYWNjdEBnbWFpbC5jb20&src=dGgudGgjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23039be5&color=%230b8043"></iframe>
+            </div>
+        </div>
+
+        <!-- Section 2: Todo List from Google Sheets -->
+        <div class="card">
+            <div class="card-header border-l-4 border-green-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                รายการสิ่งที่ต้องทำ (Todo List)
+            </div>
+            <div class="iframe-container todo-frame">
+                <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTXnQ-7Ns6-T8vp9BuH0qjN78HGXOZkc2tgpbZAXj9fdUDlIl3pfVgSA5KS7CoFVsNJDH3NOflJ43bE/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-8 text-gray-500 text-sm">
+        <p>อัปเดตข้อมูลอัตโนมัติจาก Google Services</p>
+    </footer>
 
 </body>
 </html>
